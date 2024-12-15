@@ -18,6 +18,12 @@ More complie help with concurrency
 Rust borrows a lot of ideas from other languages & is truly multi-paradigm, meaning you can write mostly functional
 code or imperative code
 
+### Memory Safety and Zero-Cost Abstractions
+
+Rust is a system programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety. It is graced with the feature of “memory safety without garbage collection,” an attribute that makes Rust one of a kind. “Memory safety” is ensuring that software is not causing any memory leaks or dangling pointers while accessing the system’s memory. In Rust, memory safety is accomplished through a system called ownership, with a set of rules that the compiler checks at compile time. This ownership system eliminates the need for garbage collection or manual memory management, thus ensuring swift execution of software and a safer memory environment. Rust’s memory management features even support concurrent programming, providing options for shared and mutable state access that ensure thread safety while reducing the risk of thread unsafety.
+
+Zero-cost abstraction is another key concept Rust implements. In general, abstractions in programming languages allow code to be written at a high level (like in Python), while being able to run at a low level (like in C). However, these abstractions often come with a runtime cost. In contrast, Rust aims to provide many useful abstractions, such as iterators and closures, that don’t sacrifice runtime performance. This means you can write high-level code in Rust, and the Rust compiler will optimize it to run as fast as manually written low-level code.
+
 ## Why not Rust?
 
 Big Language - lots to learn
@@ -30,23 +36,23 @@ Slower iteration cycle than most languages
 
 ## What can I build with Rust?
 
-Web servers
-Command-Line Interfaces
-Native Desktop Application
-In-Browser apps via Web-Assembly [makepad.dev](https://makepad.dev)
-Performance intensive libraries
-Operating Systems
+* Web servers
+* Command-Line Interfaces
+* Native Desktop Application
+* In-Browser apps via Web-Assembly [makepad.dev](https://makepad.dev)
+* Performance intensive libraries
+* Operating Systems
 
 ## Language features
 
-Performance
-Strong, static, expressive type system
-Great error messages
-Modern generics
-Memory safety
-Fearless concurrency
-Cross platform
-C interoperability
+* Performance
+* Strong, static, expressive type system
+* Great error messages
+* Modern generics
+* Memory safety
+* Fearless concurrency
+* Cross platform
+* C interoperability
 
 ## Getting your environment setup
 
@@ -147,4 +153,89 @@ edition = "2021"
 cargo run
 ```
 
-it will generate the Cargo.lock
+it will generate the target folder & Cargo.lock
+
+### Crates
+The primary unit of code organization in Rust is called a crate. Your code exists as
+a crate which can be distributed to the community via crates.io.
+
+Crates in Rust are analogous to gems in Ruby or packages in JavaScript. The registry at crates.io is similar to rubygems.org or npmjs.com as the de facto community repository for
+distributing and sharing code.
+
+Making our crate a library
+
+Cargo assumes the entry point for defining a library crate is a file src/lib.rs. Let’s
+convert our current binary crate into a binary and library crate. First, we create our
+library entry point:
+
+```rs
+// src/lib.rs
+pub fn say_hello() {
+    println!("Hello, world!");
+}
+```
+
+There are two differences to this code from what was in main.rs. First, we changed
+the name of the function from main to say_hello. This change is more cosmetic than
+anything (in fact leaving it named main works just fine, main is only special in some
+contexts).
+
+The second change is the keyword pub before fn. This is a privacy identifier which
+specifies that this function should be publicly accessible to user’s of our crate.
+Without the keyword, we could call this function inside of our lib.rs file, but user’s
+of our crate would not be able to call it. Note that our executable sees the library
+crate the exact same as someone who included our library as a dependency in their
+Cargo.toml file. This ensures a proper separation of concerns between code meant
+to be executed as a binary and the actual functionality of your project.
+
+## Macro
+
+A macro in Rust is a piece of code that generates another piece of code
+
+## Datatypes
+
+```rust
+// boolean 
+let b: bool = true;
+
+// unsigned integers
+let i1: u8 = 1;
+let i2: u16 = 1;
+let i3: u32 = 1;
+let i4: u64 = 1;
+let i5: u128 = 1;
+
+
+// unsigned integers
+let u1: i8 = 1;
+let u2: i16 = 1;
+let u3: i32 = 1;
+let u4: i64 = 1;
+let u5: i128 = 1;
+
+// floating point numbers
+let f1: f32 = 1.0;
+let f2: f64 = 1.0;
+
+// platform specific integers
+let p1: usize = 1;
+let p2: isize = 1;
+
+// characters, &str, String
+let c: char = 'c';
+let s: &str = "hello";
+let s1: String = String::from("hello");
+
+// Above data types are the scalar datatypes, bz it stores only single value
+
+// Compound data types which stores multiple values
+
+// arrays
+let a1: [i32; 5] = [1, 2, 3, 4, 5]
+let ia1 = a1[4]
+
+// tuples
+let t1: (i32, i32, i32) = (1, 2, 3);
+let t2: (i32, f64, &str) = (5, 5.0, "5");
+
+```
